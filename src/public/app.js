@@ -1,1 +1,0 @@
-alert('Vuejs goes here')
