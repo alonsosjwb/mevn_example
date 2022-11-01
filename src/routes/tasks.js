@@ -18,4 +18,11 @@ router.post('/', async (req, res=response)=>{
     res.json({status: "Task saved"})
 })
 
+router.put('/:_id', async (req, res=response)=>{
+    const task = await Task.findByIdAndUpdate(req.params._id, req.body);
+    console.log("🚀 ~ file: tasks.js ~ line 23 ~ router.put ~ task", task)
+    res.json({
+        status: 'Task Updated'
+    })
+})
 module.exports = router;
