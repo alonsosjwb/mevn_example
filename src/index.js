@@ -10,6 +10,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 //Routes
+app.use('/tasks', require('./routes/tasks'));
 
 //Static files
 app.use(express.static(__dirname + '/public'))
