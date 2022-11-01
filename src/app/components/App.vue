@@ -45,54 +45,136 @@
                 </div>
             </div>
         </nav>
-        <div class="container mx-auto">
-            <form class="w-full max-w-sm">
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
-                            for="inline-full-name">
-                            Full Name
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input
-                            class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                            id="inline-full-name" type="text" value="Jane Doe">
+        <div class="container mx-auto mt-8">
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <div class="max-w-lg rounded overflow-hidden shadow-lg">
+                        <div class="px-6 py-4">
+                            <form class="w-full max-w-md" @submit.prevent="addTask">
+                                <div class="md:flex md:items-center mb-6">
+                                    <div class="md:w-1/3">
+                                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+                                            for="inline-title">
+                                            Title
+                                        </label>
+                                    </div>
+                                    <div class="md:w-2/3">
+                                        <input
+                                            class="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                            id="inline-title" type="text" v-model="task.title"
+                                            placeholder="Set a title for your task">
+                                    </div>
+                                </div>
+                                <div class="md:flex md:items-center mb-6">
+                                    <div class="md:w-1/3">
+                                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+                                            for="description">
+                                            Description
+                                        </label>
+                                    </div>
+                                    <div class="md:w-2/3">
+                                        <textarea
+                                            class="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                            id="description" v-model="task.description"
+                                            placeholder="Set a description for your task">
+                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="md:flex md:items-center">
+                                    <div class="md:w-1/3"></div>
+                                    <div class="md:w-2/3"></div>
+                                    <div class="md:w-3/3">
+                                        <button
+                                            class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                                            type="submit">
+                                            Send
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
-                            for="inline-password">
-                            Password
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input
-                            class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                            id="inline-password" type="password" placeholder="******************">
+                <div>
+                    <div class="overflow-x-auto relative mr-3">
+                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-500">
+                            <thead
+                                class="text-xs text-gray-500 uppercase bg-gray-50 dark:bg-gray-300 dark:text-gray-500">
+                                <tr>
+                                    <th scope="col" class="py-3 px-6">
+                                        Id
+                                    </th>
+                                    <th scope="col" class="py-3 px-6">
+                                        Title
+                                    </th>
+                                    <th scope="col" class="py-3 px-6">
+                                        Description
+                                    </th>
+                                    <th scope="col" class="py-3 px-6">
+                                        Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white border-b dark:bg-gray-100 dark:border-gray-100" v-for="(task, index) in tasks" :key="index">
+                                    <th scope="row"
+                                        class="py-4 px-6 font-medium text-gray-500 whitespace-nowrap dark:text-500">
+                                        {{task._id}}
+                                    </th>
+                                    <td class="py-4 px-6">
+                                        {{task.title}}
+                                    </td>
+                                    <td class="py-4 px-6">
+                                        {{task.description}}
+                                    </td>
+                                    <td class="py-4 px-6">
+                                        $2999
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3"></div>
-                    <label class="md:w-2/3 block text-gray-500 font-bold">
-                        <input class="mr-2 leading-tight" type="checkbox">
-                        <span class="text-sm">
-                            Send me your newsletter!
-                        </span>
-                    </label>
-                </div>
-                <div class="md:flex md:items-center">
-                    <div class="md:w-1/3"></div>
-                    <div class="md:w-2/3">
-                        <button
-                            class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-                            type="button">
-                            Sign Up
-                        </button>
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </template>
+
+<script>
+class Task {
+    constructor(title, description) {
+        this.title = '';
+        this.description = '';
+    }
+}
+export default {
+    data() {
+        return {
+            task: new Task(),
+            tasks: []
+        }
+    },
+    created() {
+        this.getTasks();
+    },
+    methods: {
+        getTasks() {
+            fetch('/api/tasks')
+                .then(res => res.json())
+                .then(data => this.tasks = data)
+        },
+        addTask() {
+            fetch('/api/tasks', {
+                method: 'POST',
+                body: JSON.stringify(this.task),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json'
+                }
+            }).then(res => res.json())
+                .then(data => console.log(data))
+            this.task = new Task();
+        }
+    }
+}
+</script>
