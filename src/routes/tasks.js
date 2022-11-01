@@ -14,7 +14,8 @@ router.post('/', async (req, res=response)=>{
     console.log("🚀 ~ file: tasks.js ~ line 15 ~ router.post ~ req.body", req.body)
     const task = new Task(req.body);
     console.log(task);
-    res.json("Recieved")
+    await task.save();
+    res.json({status: "Task saved"})
 })
 
 module.exports = router;
