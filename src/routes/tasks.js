@@ -25,4 +25,11 @@ router.put('/:_id', async (req, res=response)=>{
         status: 'Task Updated'
     })
 })
+
+router.delete('/:_id', async (req, res=response)=>{
+    await Task.findByIdAndRemove(req.params._id)
+    res.json({
+        status: 'Task Deleted'
+    })
+})
 module.exports = router;
