@@ -130,7 +130,7 @@
                                     </td>
                                     <td class="py-4 px-6">
                                         <button
-                                            @click="updateTask"
+                                            @click="editTask(task._id)"
                                             class="bg-grey-light hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded inline-flex items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -139,7 +139,7 @@
                                             </svg>
                                         </button>
                                         <button
-                                            @click="deleteTask"
+                                            @click="deleteTask(task._id)"
                                             class="bg-grey-light hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded inline-flex items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -193,11 +193,21 @@ export default {
                 .then(data => console.log(data))
             this.task = new Task();
         },
-        updateTask(){
-
+        editTask(id){
+            console.log('editing', id)
         },
-        deleteTask(){
-
+        deleteTask(id){
+            fetch('/api/tasks' + id, {
+                method: 'DELETE',
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then( data =>{
+                this.getTasks();
+            })
         }
     }
 }

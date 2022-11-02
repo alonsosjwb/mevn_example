@@ -10,6 +10,12 @@ router.get('/', async (req, res=response)=>{
     res.json(tasks);
 })
 
+router.get('/:_id', async (req, res=response)=>{
+    const task = await Task.findById(req.params._id);
+    console.log("🚀 ~ file: tasks.js ~ line 15 ~ router.get ~ task", task)
+    res.json(task);
+})
+
 router.post('/', async (req, res=response)=>{
     console.log("🚀 ~ file: tasks.js ~ line 15 ~ router.post ~ req.body", req.body)
     const task = new Task(req.body);
