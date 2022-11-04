@@ -214,7 +214,8 @@ export default {
                 })
                 .then(res => res.json())
                 .then( data =>{ 
-                    this.editTask = false;
+                    this.edit = false;
+                    this.task = new Task();
                     this.getTasks()
                 });
             }
