@@ -50,7 +50,7 @@
                 <div>
                     <div class="max-w-lg rounded overflow-hidden shadow-lg">
                         <div class="px-6 py-4">
-                            <form class="w-full max-w-md" @submit.prevent="addTask">
+                            <form class="w-full max-w-md" @submit.prevent="sendTask">
                                 <div class="md:flex md:items-center mb-6">
                                     <div class="md:w-1/3">
                                         <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
@@ -84,11 +84,20 @@
                                     <div class="md:w-1/3"></div>
                                     <div class="md:w-2/3"></div>
                                     <div class="md:w-3/3">
-                                        <button
-                                            class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-                                            type="submit">
-                                            Send
-                                        </button>
+                                        <template v-if="edit === false">
+                                            <button
+                                                class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                                                type="submit">
+                                                Send
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button
+                                                class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                                                type="submit">
+                                                Update
+                                            </button>
+                                        </template>
                                     </div>
                                 </div>
                             </form>
@@ -161,15 +170,17 @@
 <script>
 class Task {
     constructor(title, description) {
-        this.title = '';
-        this.description = '';
+        this.title = title;
+        this.description = description;
     }
 }
 export default {
     data() {
         return {
             task: new Task(),
-            tasks: []
+            tasks: [],
+            edit: false,
+            taskToEdit: ''
         }
     },
     created() {
@@ -181,23 +192,46 @@ export default {
                 .then(res => res.json())
                 .then(data => this.tasks = data)
         },
-        addTask() {
-            fetch('/api/tasks', {
-                method: 'POST',
-                body: JSON.stringify(this.task),
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-type': 'application/json'
-                }
-            }).then(res => res.json())
-                .then(data => console.log(data))
-            this.task = new Task();
+        sendTask() {
+            if(this.edit === false){
+                fetch('/api/tasks', {
+                    method: 'POST',
+                    body: JSON.stringify(this.task),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-type': 'application/json'
+                    }
+                }).then(res => res.json())
+                  .then(data => this.getTasks())
+            }else{
+                fetch('/api/tasks/' + this.taskToEdit, {
+                    method: 'PUT',
+                    body: JSON.stringify(this.task),
+                    headers:{
+                        'Accept': 'application/json',
+                        'Content-type': 'application/json'
+                    }
+                })
+                .then(res => res.json())
+                .then( data =>{ 
+                    this.editTask = false;
+                    this.getTasks()
+                });
+            }
         },
         editTask(id){
-            console.log('editing', id)
+           fetch('/api/tasks/' + id)
+           .then(res => res.json())
+           .then(data => {
+                console.log("🚀 ~ file: App.vue ~ line 224 ~ editTask ~ data", data)
+                this.task = new Task(data.title, data.description);
+                console.log("🚀 ~ file: App.vue ~ line 226 ~ editTask ~ this.task", this.task)
+                this.edit = true;
+                this.taskToEdit = id;
+           })
         },
         deleteTask(id){
-            fetch('/api/tasks' + id, {
+            fetch('/api/tasks/' + id, {
                 method: 'DELETE',
                 headers:{
                     'Accept': 'application/json',
